@@ -75,7 +75,16 @@ nexcart/
 │   ├── page.tsx              # Home page
 │   ├── layout.tsx            # Root layout (shared UI: header, footer, etc.)
 │   ├── globals.css           # Global styles (Tailwind or custom CSS)
-│   └── favicon.ico           # Site favicon
+│   ├── favicon.ico           # Site favicon
+│   │
+│   ├── [slug]/               # Dynamic product/category page
+│   │   └── page.tsx          # Renders content based on URL slug
+│   │
+│   ├── list/                 # Product list or category list page
+│   │   └── page.tsx
+│   │
+│   └── login/                # User login page
+│       └── page.tsx
 │
 └── README.md                 # Project documentation
 ```
