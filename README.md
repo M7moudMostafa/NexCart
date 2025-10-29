@@ -71,22 +71,34 @@ yarn dev
 ```bash
 nexcart/
 │
-├── app/                      # Next.js App Router folder
-│   ├── page.tsx              # Home page
-│   ├── layout.tsx            # Root layout (shared UI: header, footer, etc.)
-│   ├── globals.css           # Global styles (Tailwind or custom CSS)
-│   ├── favicon.ico           # Site favicon
+├── src/                      
 │   │
-│   ├── [slug]/               # Dynamic product/category page
-│   │   └── page.tsx          # Renders content based on URL slug
+│   ├── app/                  
+│   │   ├── page.tsx          
+│   │   ├── layout.tsx        
+│   │   ├── globals.css       
+│   │   ├── favicon.ico       
+│   │   │
+│   │   ├── [slug]/           
+│   │   │   └── page.tsx      
+│   │   │
+│   │   ├── list/             
+│   │   │   └── page.tsx      
+│   │   │
+│   │   └── login/            
+│   │       └── page.tsx      
 │   │
-│   ├── list/                 # Product list or category list page
-│   │   └── page.tsx
-│   │
-│   └── login/                # User login page
-│       └── page.tsx
+│   └── components/           
+│       ├── CartModal.tsx     
+│       ├── Footer.tsx        
+│       ├── Menu.tsx          
+│       ├── Navbar.tsx        
+│       ├── NavIcons.tsx      
+│       └── SearchBar.tsx     
 │
-└── README.md                 # Project documentation
+├── public/                   
+│
+└── README.md                 
 ```
 
 ### 🧑‍💻 Author
