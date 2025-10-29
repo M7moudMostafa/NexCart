@@ -7,8 +7,8 @@ import './globals.css';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lama Dev E-Commerce Application",
-  description: "A complete e-commerce application with Next.js and Wix",
+  title: "NexCart | Modern eCommerce Web App",
+  description: "NexCart is a modern eCommerce platform designed for seamless online shopping. It offers dynamic product listings, secure checkout, real-time updates, and an intuitive dashboard for effortless store management.",
 };
 
 export default function RootLayout({
