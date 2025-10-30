@@ -92,7 +92,8 @@ nexcart/
 │       ├── CartModal.tsx     
 │       ├── Footer.tsx        
 │       ├── Menu.tsx          
-│       ├── Navbar.tsx        
+│       ├── Navbar.tsx
+│       ├── Slider.tsx          
 │       ├── NavIcons.tsx      
 │       └── SearchBar.tsx     
 │
