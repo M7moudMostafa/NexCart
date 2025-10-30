@@ -5,6 +5,10 @@ const nextConfig = {
             {
                 protocol: "https",
                 hostname: "openaccess-cdn.clevelandart.org"
+            },
+            {
+                protocol: "https",
+                hostname: "images.pexels.com"
             }
         ]
     },
