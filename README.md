@@ -95,7 +95,9 @@ nexcart/
 │       ├── Navbar.tsx
 │       ├── Slider.tsx          
 │       ├── NavIcons.tsx      
-│       └── SearchBar.tsx     
+│       ├── CategoryList.tsx     
+│       ├── ProductList.tsx     
+│       └── SearchBar.tsx       
 │
 ├── public/                   
 │
