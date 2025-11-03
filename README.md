@@ -94,8 +94,12 @@ nexcart/
 │       ├── Menu.tsx          
 │       ├── Navbar.tsx
 │       ├── Slider.tsx          
+│       ├── ProductImages.tsx    
 │       ├── NavIcons.tsx      
+│       ├── Filter.tsx     
 │       ├── CategoryList.tsx     
+│       ├── CustomizedProducts.tsx
+│       ├── Add.tsx
 │       ├── ProductList.tsx     
 │       └── SearchBar.tsx       
 │
