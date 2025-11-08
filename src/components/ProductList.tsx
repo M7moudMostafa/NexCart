@@ -2,7 +2,28 @@ import { WixClientServer } from "@/lib/wixClientServer";
 import { products } from "@wix/stores";
 import Image from "next/image";
 import Link from "next/link";
-import DOMPurify from "isomorphic-dompurify";
+
+// Simple function to strip HTML tags and get plain text
+const stripHtml = (html: string): string => {
+    if (!html) return "";
+    // Remove HTML tags and decode HTML entities
+    return html
+        .replace(/<[^>]*>/g, "")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .trim();
+};
+
+// Get first N characters of description
+const getDescriptionPreview = (description: string, maxLength: number = 100): string => {
+    const text = stripHtml(description);
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + "...";
+};
 
 const ITEMS_PER_PAGE = 20;
 
@@ -55,10 +76,9 @@ const ProductList = async ({
                         <span className="font-medium">{product.name}</span>
                         <span className="font-semibold">{product.priceData?.price}$</span>
                     </div>
-                    <div
-                        className="text-sm text-gray-500"
-                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description || "") || "" }}
-                    ></div>
+                    <div className="text-sm text-gray-500">
+                        {getDescriptionPreview(product?.description || "")}
+                    </div>
                     <button className="rounded-2xl ring-1 w-max ring-demo text-demo py-2 px-4 text-xs hover:bg-demo hover:text-white">
                         Add to cart
                     </button>
