@@ -1,125 +1,69 @@
+import { WixClientServer } from "@/lib/wixClientServer";
+import { products } from "@wix/stores";
 import Image from "next/image";
 import Link from "next/link";
+import DOMPurify from "isomorphic-dompurify";
 
-const ProductList = () => {
+const ITEMS_PER_PAGE = 20;
+
+const ProductList = async ({
+    categoryId,
+    limit = ITEMS_PER_PAGE,
+}: {
+    categoryId?: string;
+    limit?: number;
+}) => {
+
+    const wixClientServer = await WixClientServer();
+
+    const fetchLimit = categoryId ? (limit || ITEMS_PER_PAGE) * 3 : (limit || ITEMS_PER_PAGE);
+    const query = wixClientServer.products.queryProducts();
+    const res = await query.limit(fetchLimit).find();
+
+    let filteredItems = res.items;
+    if (categoryId) {
+        filteredItems = res.items.filter((product: products.Product) =>
+            product.collectionIds && product.collectionIds.includes(categoryId)
+        ).slice(0, limit || ITEMS_PER_PAGE);
+    }
+
     return (
         <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
-            <Link
-                href="/test"
-                className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]"
-            >
-                <div className="relative w-full h-80">
-                    <Image
-                        src="https://openaccess-cdn.clevelandart.org/1987.58/1987.58_web.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity ease duration-500"
-                    />
-                    <Image
-                        src="https://live.staticflickr.com/1887/43212654745_03cbefb861_b.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md"
-                    />
-                </div>
-                <div className="flex justify-between">
-                    <span className="font-medium">Product Name</span>
-                    <span className="font-semibold">$49</span>
-                </div>
-                <div className="text-sm text-gray-500">My description</div>
-                <button className="rounded-2xl ring-1 w-max ring-demo text-demo py-2 px-4 text-xs hover:bg-demo hover:text-white">
-                    Add to cart
-                </button>
-            </Link>
-            <Link
-                href="/test"
-                className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]"
-            >
-                <div className="relative w-full h-80">
-                    <Image
-                        src="https://openaccess-cdn.clevelandart.org/1987.58/1987.58_web.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity ease duration-500"
-                    />
-                    <Image
-                        src="https://live.staticflickr.com/1887/43212654745_03cbefb861_b.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md"
-                    />
-                </div>
-                <div className="flex justify-between">
-                    <span className="font-medium">Product Name</span>
-                    <span className="font-semibold">$49</span>
-                </div>
-                <div className="text-sm text-gray-500">My description</div>
-                <button className="rounded-2xl ring-1 w-max ring-demo text-demo py-2 px-4 text-xs hover:bg-demo hover:text-white">
-                    Add to cart
-                </button>
-            </Link>
-            <Link
-                href="/test"
-                className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]"
-            >
-                <div className="relative w-full h-80">
-                    <Image
-                        src="https://openaccess-cdn.clevelandart.org/1987.58/1987.58_web.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity ease duration-500"
-                    />
-                    <Image
-                        src="https://live.staticflickr.com/1887/43212654745_03cbefb861_b.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md"
-                    />
-                </div>
-                <div className="flex justify-between">
-                    <span className="font-medium">Product Name</span>
-                    <span className="font-semibold">$49</span>
-                </div>
-                <div className="text-sm text-gray-500">My description</div>
-                <button className="rounded-2xl ring-1 w-max ring-demo text-demo py-2 px-4 text-xs hover:bg-demo hover:text-white">
-                    Add to cart
-                </button>
-            </Link>
-            <Link
-                href="/test"
-                className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]"
-            >
-                <div className="relative w-full h-80">
-                    <Image
-                        src="https://openaccess-cdn.clevelandart.org/1987.58/1987.58_web.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity ease duration-500"
-                    />
-                    <Image
-                        src="https://live.staticflickr.com/1887/43212654745_03cbefb861_b.jpg"
-                        alt="product image"
-                        fill
-                        sizes="25vw"
-                        className="absolute object-cover rounded-md"
-                    />
-                </div>
-                <div className="flex justify-between">
-                    <span className="font-medium">Product Name</span>
-                    <span className="font-semibold">$49</span>
-                </div>
-                <div className="text-sm text-gray-500">My description</div>
-                <button className="rounded-2xl ring-1 w-max ring-demo text-demo py-2 px-4 text-xs hover:bg-demo hover:text-white">
-                    Add to cart
-                </button>
-            </Link>
+            {filteredItems.map((product: products.Product) => (
+                <Link
+                    href="/test"
+                    key={product._id}
+                    className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]"
+                >
+                    <div className="relative w-full h-80">
+                        <Image
+                            src={product.media?.mainMedia?.image?.url || "/product.jpg"}
+                            alt="product image"
+                            fill
+                            sizes="25vw"
+                            className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity ease duration-500"
+                        />
+                        <Image
+                            src={product.media?.items?.[1]?.image?.url || "/product.jpg"}
+                            alt="product image"
+                            fill
+                            sizes="25vw"
+                            className="absolute object-cover rounded-md"
+                        />
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="font-medium">{product.name}</span>
+                        <span className="font-semibold">{product.priceData?.price}$</span>
+                    </div>
+                    <div
+                        className="text-sm text-gray-500"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product?.description || "") || "" }}
+                    ></div>
+                    <button className="rounded-2xl ring-1 w-max ring-demo text-demo py-2 px-4 text-xs hover:bg-demo hover:text-white">
+                        Add to cart
+                    </button>
+                </Link>
+            ))}
         </div>
     );
 };

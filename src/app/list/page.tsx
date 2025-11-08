@@ -24,9 +24,9 @@ const ListPage = async () => {
             <Filter />
             {/* PRODUCTS */}
             <h1 className="mt-12 text-xl font-semibold">
-                Shoses For You!
+                Shoes For You!
             </h1>
-                <ProductList />
+            <ProductList limit={20} />
         </div>
     );
 };
