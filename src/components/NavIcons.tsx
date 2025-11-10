@@ -2,24 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { useState } from "react";
 import CartModal from "./CartModal";
+import { useWixClient } from "@/hooks/useWixClient";
+import Cookies from "js-cookie";
 
 export default function NavIcons() {
+    const wixClient = useWixClient();
     const router = useRouter();
 
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [isCartOpen, setIsCartOpen] = useState(false);
-
-    const isLoggedIn = false;
-
+    const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
+    const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    
     const handleProfile = () => {
+        const isLoggedIn = wixClient.auth.loggedIn();
         if (!isLoggedIn) {
             router.push("/login");
             return;
+        } else {
+            setIsProfileOpen((prev) => !prev);
         }
-        setIsProfileOpen((prev) => !prev);
+    };
+
+    const handleLogOut = async () => {
+        setIsLoading(true);
+        Cookies.remove("refreshToken");
+        const { logoutUrl } = await wixClient.auth.logout(window.location.href);
+        setIsLoading(false);
+        setIsProfileOpen(false);
+        router.push(logoutUrl);
     };
 
     return (
@@ -40,7 +53,12 @@ export default function NavIcons() {
                     <Link href="/" className="block hover:underline">
                         Profile
                     </Link>
-                    <div className="mt-2 cursor-pointer hover:underline">Logout</div>
+                    <div
+                        className="mt-2 cursor-pointer hover:underline"
+                        onClick={handleLogOut}
+                    >
+                        {isLoading ? "Logging out" : "Logout"}
+                    </div>
                 </div>
             )}
 
